@@ -1,5 +1,11 @@
 import os
 import subprocess
+import json
+
+def load_language(lang):
+    """Загружает тексты на выбранном языке."""
+    with open(f"lang/{lang}.json", "r", encoding="utf-8") as file:
+        return json.load(file)
 
 def ask_question(question):
     """Функция для задавания вопросов пользователю."""
@@ -8,40 +14,43 @@ def ask_question(question):
 def decompile_with_unluac(luac_file, output_file):
     """Декомпиляция с использованием unluac."""
     try:
-        command = f"java -jar unluac.jar {luac_file} > {output_file}"
+        command = f"java -jar tools/unluac.jar {luac_file} > {output_file}"
         subprocess.run(command, shell=True, check=True)
-        print(f"Декомпиляция завершена. Результат сохранен в {output_file}")
+        print(texts["decompilation_complete"].format(output_file))
     except subprocess.CalledProcessError as e:
-        print(f"Ошибка при декомпиляции: {e}")
+        print(texts["decompilation_error"].format(e))
 
 def decompile_with_luadec(luac_file, output_file):
     """Декомпиляция с использованием luadec."""
     try:
-        command = f"luadec {luac_file} > {output_file}"
+        command = f"tools/luadec {luac_file} > {output_file}"
         subprocess.run(command, shell=True, check=True)
-        print(f"Декомпиляция завершена. Результат сохранен в {output_file}")
+        print(texts["decompilation_complete"].format(output_file))
     except subprocess.CalledProcessError as e:
-        print(f"Ошибка при декомпиляции: {e}")
+        print(texts["decompilation_error"].format(e))
 
 def main():
-    print("=== Декомпилятор Lua-скриптов ===")
+    global texts
+    lang = ask_question("Choose language (en/ru): ").lower()
+    if lang not in ["en", "ru"]:
+        print("Invalid language choice! Using English by default.")
+        lang = "en"
     
-    # Запрашиваем путь к файлу .luac
-    luac_file = ask_question("Введите путь к файлу .luac: ")
+    texts = load_language(lang)
+    print(texts["welcome"])
+    
+    luac_file = ask_question(texts["enter_luac_path"])
     if not os.path.exists(luac_file):
-        print("Файл не найден!")
+        print(texts["file_not_found"])
         return
     
-    # Запрашиваем инструмент для декомпиляции
-    tool = ask_question("Выберите инструмент (unluac/luadec): ").lower()
+    tool = ask_question(texts["choose_tool"]).lower()
     if tool not in ["unluac", "luadec"]:
-        print("Неверный выбор инструмента!")
+        print(texts["invalid_tool"])
         return
     
-    # Запрашиваем путь для сохранения результата
-    output_file = ask_question("Введите путь для сохранения результата: ")
+    output_file = ask_question(texts["enter_output_path"])
     
-    # Выполняем декомпиляцию
     if tool == "unluac":
         decompile_with_unluac(luac_file, output_file)
     elif tool == "luadec":
