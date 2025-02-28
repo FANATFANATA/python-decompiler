@@ -9,14 +9,12 @@ A simple tool for decompiling Lua scripts (.luac) using unluac or luadec.
 - Russian
 
 ## How to Use
-1. Clone the repository:
-git clone https://github.com/FANATFANATA/python-decompiler
-cd python-decompiler
-Run the script:
-Python Linux: python3 main.py
-Python Windows: py main.py
-Bash: bash: main.sh
-PowerShell: main.ps1
+- git clone https://github.com/FANATFANATA/python-decompiler
+- cd python-decompiler
+- Python Linux: python3 main.py
+- Python Windows: py main.py
+- Bash: bash: main.sh
+- PowerShell: main.ps1
 
 ## RU
 
@@ -28,12 +26,9 @@ PowerShell: main.ps1
 
 ## Использование
 
-1. Клонируйте репозиторий:
-git clone https://github.com/FANATFANATA/python-decompiler
-cd python-decompiler
-Выполните:
-Python Linux: python3 main.py
-Python Windows: py main.py
-Bash: bash: main.sh
-PowerShell: main.ps1
-    
+- git clone https://github.com/FANATFANATA/python-decompiler
+- cd python-decompiler
+- Python Linux: python3 main.py
+- Python Windows: py main.py
+- Bash: bash: main.sh
+- PowerShell: main.ps1
